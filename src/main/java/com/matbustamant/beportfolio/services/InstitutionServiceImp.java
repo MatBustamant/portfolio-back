@@ -3,17 +3,19 @@ package com.matbustamant.beportfolio.services;
 import com.matbustamant.beportfolio.models.Institution;
 import com.matbustamant.beportfolio.repositories.InstitutionRepository;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class InstitutionServiceImp implements InstitutionService {
 	
-	@Autowired
-	private InstitutionRepository instiRepo;
+	private final InstitutionRepository instiRepo;
 
 	@Override
-	public List<Institution> getInstitution() {
+	public List<Institution> getInstitutions() {
 		return instiRepo.findAll();
 	}
 
@@ -26,7 +28,7 @@ public class InstitutionServiceImp implements InstitutionService {
 	public void deleteInstitution(Integer id) {
 		boolean exists = instiRepo.existsById(id);
 		if (!exists) {
-			throw new IllegalStateException("La institución con id " + id + " no existe.");
+			throw new IllegalStateException(String.format("La institución con id %d no existe.", id));
 		}
 		instiRepo.deleteById(id);
 	}

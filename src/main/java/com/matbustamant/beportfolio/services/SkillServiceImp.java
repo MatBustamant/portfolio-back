@@ -4,14 +4,16 @@ import com.matbustamant.beportfolio.models.Skill;
 import com.matbustamant.beportfolio.models.SkillType;
 import com.matbustamant.beportfolio.repositories.SkillRepository;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class SkillServiceImp implements SkillService {
 	
-	@Autowired
-	private SkillRepository skillRepo;
+	private final SkillRepository skillRepo;
 
 	@Override
 	public List<Skill> getSkillsByType(SkillType stype) {
@@ -27,7 +29,7 @@ public class SkillServiceImp implements SkillService {
 	public void deleteSkill(Integer id) {
 		boolean exists = skillRepo.existsById(id);
 		if (!exists) {
-			throw new IllegalStateException("La habilidad con id " + id + " no existe.");
+			throw new IllegalStateException(String.format("La habilidad con id %d no existe.", id));
 		}
 		skillRepo.deleteById(id);
 	}

@@ -14,7 +14,7 @@ public class NewUser {
 	private String name;
 	
 	@NotBlank
-	private String username;
+	private String surname;
 	
 	@Email
 	private String email;

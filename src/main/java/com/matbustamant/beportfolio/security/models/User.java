@@ -21,40 +21,42 @@ import lombok.Setter;
 @Entity
 @Table(name="user")
 public class User implements Serializable{
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="user_id")
 	private Integer id;
 	
-	@NotNull
-	@Column(name="name")
+	@NotNull(message="Nombre no puede ser null.")
+	@Column(name="name", unique=true)
 	private String name;
 	
-	@NotNull
-	@Column(name="username", unique = true)
-	private String username;
+	@NotNull(message="Apellido no puede ser null.")
+	@Column(name="surname")
+	private String surname;
 	
-	@NotNull
+	@NotNull(message="Email no puede ser null.")
 	@Column(name="email")
 	private String email;
 	
-	@NotNull
+	@NotNull(message="Contraseña no puede ser null.")
 	@Column(name="password")
 	private String password;
 	
-	@NotNull
+	@NotNull(message="Roles no pueden ser null.")
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"),
 			inverseJoinColumns = @JoinColumn(name="role_id"))
-	private Set<Role> roles = new HashSet<Role>();
+	private Set<Role> roles = new HashSet<>();
 
-	public User(String name, String username, String email, String password) {
+	public User(String name, String surname, String email, String password) {
 		this.name = name;
-		this.username = username;
+		this.surname = surname;
 		this.email = email;
 		this.password = password;
 	}
 	
 	public User() {
 	}
+
 }

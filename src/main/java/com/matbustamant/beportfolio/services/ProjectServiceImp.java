@@ -3,17 +3,19 @@ package com.matbustamant.beportfolio.services;
 import com.matbustamant.beportfolio.models.Project;
 import com.matbustamant.beportfolio.repositories.ProjectRepository;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class ProjectServiceImp implements ProjectService {
 	
-	@Autowired
-	private ProjectRepository projectRepo;
+	private final ProjectRepository projectRepo;
 
 	@Override
-	public List<Project> getProject() {
+	public List<Project> getProjects() {
 		return projectRepo.findAll();
 	}
 
@@ -26,7 +28,7 @@ public class ProjectServiceImp implements ProjectService {
 	public void deleteProject(Integer id) {
 		boolean exists = projectRepo.existsById(id);
 		if (!exists) {
-			throw new IllegalStateException("El proyecto con id " + id + " no existe.");
+			throw new IllegalStateException(String.format("El proyecto con id %d no existe.", id));
 		}
 		projectRepo.deleteById(id);
 	}

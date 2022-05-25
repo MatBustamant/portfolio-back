@@ -1,11 +1,13 @@
 package com.matbustamant.beportfolio.security;
 
+import com.matbustamant.beportfolio.security.enums.RoleName;
 import com.matbustamant.beportfolio.security.jwt.JwtEntryPoint;
 import com.matbustamant.beportfolio.security.jwt.JwtTokenFilter;
 import com.matbustamant.beportfolio.security.services.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,41 +16,32 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class MainSecurity extends WebSecurityConfigurerAdapter{
+@RequiredArgsConstructor
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
-	@Autowired
-	UserDetailsServiceImpl userDetailsService;
-	
-	@Autowired
-	JwtEntryPoint jwtEntryPoint;
-
-	@Bean
-	public JwtTokenFilter jwtTokenFilter() {
-		return new JwtTokenFilter();
-	}
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	private final UserDetailsServiceImpl userDetailsService;
+	private final JwtEntryPoint jwtEntryPoint;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final JwtTokenFilter jwtTokenFilter;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable()
-				.authorizeRequests()
-				.antMatchers("/api/auth/**").permitAll()
-				.anyRequest().authenticated()
-				.and()
-				.exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
-				.and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.cors().and().csrf().disable();
+		http.exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
+			.and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.authorizeRequests()
+				.antMatchers("/api/auth/login").permitAll()
+				.antMatchers("/api/auth/**").hasAuthority(RoleName.ROLE_ADMIN.getName())
+				.antMatchers(HttpMethod.GET, "/api/portfolio/**").authenticated()
+				.anyRequest().hasAuthority(RoleName.ROLE_ADMIN.getName());
+		http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Override
@@ -64,6 +57,6 @@ public class MainSecurity extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
 }

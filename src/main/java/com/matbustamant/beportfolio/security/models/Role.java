@@ -9,12 +9,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 @Entity
+@Table(name="role")
 public class Role implements Serializable{
 	
 	@Id
@@ -22,7 +24,7 @@ public class Role implements Serializable{
 	@Column(name="role_id")
 	private Short id;
 	
-	@NotNull
+	@NotNull(message="Nombre no puede ser null.")
 	@Enumerated(EnumType.STRING)
 	@Column(name="role_name")
 	private RoleName roleName;

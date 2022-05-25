@@ -3,14 +3,16 @@ package com.matbustamant.beportfolio.services;
 import com.matbustamant.beportfolio.models.About;
 import com.matbustamant.beportfolio.repositories.AboutRepository;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class AboutServiceImp implements AboutService{
 	
-	@Autowired
-	private AboutRepository aboutRepo;
+	private final AboutRepository aboutRepo;
 	
 	@Override
 	public List<About> getAbout() {
@@ -26,7 +28,7 @@ public class AboutServiceImp implements AboutService{
 	public void deleteAbout(Integer id) {
 		boolean exists = aboutRepo.existsById(id);
 		if (!exists) {
-			throw new IllegalStateException("La descripción con id " + id + " no existe.");
+			throw new IllegalStateException(String.format("La descripción con id %d no existe.", id));
 		}
 		aboutRepo.deleteById(id);
 	}

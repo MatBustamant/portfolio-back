@@ -5,16 +5,12 @@ import java.util.List;
 
 public interface InstitutionService {
 	
-         //método para traer todos los registros
-         public List<Institution> getInstitution();
+         public List<Institution> getInstitutions();
 
-         //método para dar de alta un registro
          public Institution saveInstitution(Institution institution);
 
-         //método para borrar un registro
          public void deleteInstitution(Integer id);
 
-         //método para encontrar un registro
          public Institution findInstitutionById(Integer id);
 
 }
