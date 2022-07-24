@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-//import org.hibernate.validator.constraints.Length;
 
 @Getter @Setter
 @Entity(name="SkillType")
@@ -26,7 +25,6 @@ public class SkillType implements Serializable{
          private Short id;
 
          @NotNull(message="Nombre no puede ser null.")
-//         @Length(min=4, max=15, message="Nombre debe tener entre 4 y 15 caracteres.")
          @Column(name="name")
 	@Enumerated(EnumType.STRING)
          private SkillTypeName name;

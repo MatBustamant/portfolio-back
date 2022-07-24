@@ -8,15 +8,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class MainUser implements UserDetails{
 	
-	private String name;
+	private final String name;
 
-	private String surname;
+	private final String surname;
 
-	private String email;
+	private final String email;
 
-	private String password;
+	private final String password;
 
-	private Collection<? extends GrantedAuthority> authorities;
+	private final Collection<? extends GrantedAuthority> authorities;
 
 	public MainUser(String name, String surname, String email, String password, Collection<? extends GrantedAuthority> authorities) {
 		this.name = name;

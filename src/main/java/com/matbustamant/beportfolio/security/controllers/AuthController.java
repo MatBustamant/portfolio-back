@@ -1,6 +1,7 @@
 package com.matbustamant.beportfolio.security.controllers;
 
 import com.matbustamant.beportfolio.dtos.Message;
+import com.matbustamant.beportfolio.security.dtos.JwtDTO;
 import com.matbustamant.beportfolio.security.dtos.LoginUser;
 import com.matbustamant.beportfolio.security.dtos.NewUser;
 import com.matbustamant.beportfolio.security.jwt.JwtProvider;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.matbustamant.beportfolio.security.services.UserService;
 import java.net.URI;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,6 +81,7 @@ public class AuthController {
 		return ResponseEntity.ok().body(userInterface.addRolesToUser(user, newRoles));
 	}
 	
+	//algo está raro aquí. creo. probar luego.
 	@PatchMapping("/user/{id}/removerole")
 	public ResponseEntity<?> removeRoleFromUser(@PathVariable Integer id, @RequestBody Collection<String> roles) {
 		User user = userInterface.getUserById(id);
@@ -101,7 +104,16 @@ public class AuthController {
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtProvider.generateToken(authentication);
+		JwtDTO jwtDto = new JwtDTO(jwt);
 		
-		return ResponseEntity.ok().body(jwt);
+		return ResponseEntity.ok().body(jwtDto);
+	}
+	
+	@PostMapping("/refresh")
+	public ResponseEntity<JwtDTO> refresh(@RequestBody JwtDTO dto) throws ParseException {
+		String jwt = jwtProvider.generateRefreshToken(dto);
+		JwtDTO jwtDto = new JwtDTO(jwt);
+		
+		return ResponseEntity.ok().body(jwtDto);
 	}
 }

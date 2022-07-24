@@ -28,6 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private final JwtEntryPoint jwtEntryPoint;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final JwtTokenFilter jwtTokenFilter;
+	private static final String[] ALLOWED = {
+            "/api/auth/login",
+            "/api/auth/refresh"
+	};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -37,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
-				.antMatchers("/api/auth/login").permitAll()
+				.antMatchers(ALLOWED).permitAll()
 				.antMatchers("/api/auth/**").hasAuthority(RoleName.ROLE_ADMIN.getName())
 				.antMatchers(HttpMethod.GET, "/api/portfolio/**").authenticated()
 				.anyRequest().hasAuthority(RoleName.ROLE_ADMIN.getName());

@@ -1,7 +1,7 @@
 package com.matbustamant.beportfolio.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
-import java.time.Period;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,18 +27,19 @@ public class Background implements Serializable{
          private Integer id;
 
          @NotNull(message="Tipo no puede ser null.")
-         @ManyToOne(fetch=FetchType.LAZY/*¿?¿? Averiguar bien EAGER*/, optional=false)
+         @ManyToOne(fetch=FetchType.EAGER, optional=false)
          @JoinColumn(name="btype_id")
          private BackgroundType linkedType;
 
          @NotNull(message="Institución no puede ser null.")
-         @ManyToOne(fetch=FetchType.LAZY/*¿?¿? Averiguar bien EAGER*/, optional=false)
+         @ManyToOne(fetch=FetchType.EAGER, optional=false)
          @JoinColumn(name="institution_id")
          private Institution linkedInstitution;
 
          @NotNull(message="Persona no puede ser null.")
-         @ManyToOne(fetch=FetchType.LAZY/*¿?¿? Averiguar bien EAGER*/, optional=false)
+         @ManyToOne(fetch=FetchType.LAZY, optional=false)
          @JoinColumn(name="person_id")
+	@JsonBackReference
          private Person linkedPerson;
 
          @NotNull(message="Título no puede ser null.")
@@ -48,7 +49,7 @@ public class Background implements Serializable{
 
          @NotNull(message="Periodo no puede ser null.")
          @Column(name="duration")
-         private Period duration;
+         private String duration;
 
          @NotNull(message="Descripción no puede ser null.")
          //@Length(max=200, message="Descripción debe tener menos de 200 caracteres.") ----------
@@ -60,7 +61,7 @@ public class Background implements Serializable{
          //@Column(name="full_description") --------------------- ESTO HAY QUE VER CÓMO SE MANEJA LUEGO.
          //private String fullDescription;
 
-         public Background(BackgroundType linkedType, Institution linkedInstitution, Person linkedPerson, String title, Period duration, String description) {
+         public Background(BackgroundType linkedType, Institution linkedInstitution, Person linkedPerson, String title, String duration, String description) {
                   this.linkedType = linkedType;
                   this.linkedInstitution = linkedInstitution;
                   this.linkedPerson = linkedPerson;

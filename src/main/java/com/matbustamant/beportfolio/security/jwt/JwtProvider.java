@@ -1,6 +1,10 @@
 package com.matbustamant.beportfolio.security.jwt;
 
+import com.matbustamant.beportfolio.security.dtos.JwtDTO;
 import com.matbustamant.beportfolio.security.models.MainUser;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.JWTParser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Header;
@@ -10,9 +14,11 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -42,8 +48,30 @@ public class JwtProvider {
 				.setIssuedAt(new Date())
 				.setExpiration(tokenExpirationDate)
 				.claim("roles", mainUser.getAuthorities())
-				.signWith(SignatureAlgorithm.HS512, secret)
+				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
 				.compact();
+	}
+	
+	public String generateRefreshToken(JwtDTO dto) throws ParseException {
+		try {	
+			decodeToken(dto.getToken());
+			return null;
+
+		}catch (ExpiredJwtException e) {
+			JWT jwt = JWTParser.parse(dto.getToken());
+			JWTClaimsSet claims = jwt.getJWTClaimsSet();
+			String username = claims.getSubject();
+			List<String> roles = (List<String>)claims.getClaim("roles");
+			Date tokenExpirationDate = new Date(new Date().getTime() + durationInSec * 1000);
+			return Jwts.builder()
+				.setHeaderParam("typ", Header.JWT_TYPE)
+				.setSubject(username)
+				.setIssuedAt(new Date())
+				.setExpiration(tokenExpirationDate)
+				.claim("roles", roles)
+				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
+				.compact();
+		}
 	}
 	
 	public String getUsernameFromToken(String token) {
@@ -75,10 +103,9 @@ public class JwtProvider {
 			log.info("Error en la firma del token JWT: {}", e.getMessage());
 			throw e;
 		}
-//		return false;
 	}
 	
 	public Jws<Claims> decodeToken(String token){
-		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+		return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token);
 	}
 }

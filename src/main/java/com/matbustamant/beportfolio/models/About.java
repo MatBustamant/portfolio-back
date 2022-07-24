@@ -1,5 +1,6 @@
 package com.matbustamant.beportfolio.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +28,8 @@ public class About implements Serializable{
          private String description;
 	
 	@OneToOne(mappedBy = "about")
-	private Person person;
+	@JsonBackReference
+	private Person linkedPerson;
 	
          public About(String description) {
 		this.description = description;

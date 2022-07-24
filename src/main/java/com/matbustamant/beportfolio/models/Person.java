@@ -1,5 +1,6 @@
 package com.matbustamant.beportfolio.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -40,7 +41,7 @@ public class Person implements Serializable{
          private String surname;
 
          @NotNull(message="Edad no puede ser null.")
-         @Range(min=14, max=65, message="Edad debe ser un valor entre 14 y 65")
+         @Range(min=14, max=100, message="Edad debe ser un valor entre 14 y 100.")
          @Column(name="age")
          private byte age;
 
@@ -51,15 +52,19 @@ public class Person implements Serializable{
          
          @OneToOne(cascade=CascadeType.ALL)
          @JoinColumn(name="about_id", referencedColumnName="about_id")
+	@JsonManagedReference
          private About about;
          
-         @OneToMany(fetch=FetchType.LAZY/*¿?¿? Averiguar bien EAGER*/, mappedBy="linkedPerson")
+         @OneToMany(fetch=FetchType.LAZY, mappedBy="linkedPerson")
+	@JsonManagedReference
          private List<Background> backgroundList;
 
-         @OneToMany(fetch=FetchType.LAZY/*¿?¿? Averiguar bien EAGER*/, mappedBy="linkedPerson")
+         @OneToMany(fetch=FetchType.LAZY, mappedBy="linkedPerson")
+	@JsonManagedReference
          private List<Project> projectList;
 
-         @OneToMany(fetch=FetchType.LAZY/*¿?¿? Averiguar bien EAGER*/, mappedBy="linkedPerson")
+         @OneToMany(fetch=FetchType.LAZY, mappedBy="linkedPerson")
+	@JsonManagedReference
          private List<Skill> skillList;
 
          public Person(String name, String surname, byte age, String occupation, About about, List<Background> backgroundList, List<Project> projectList, List<Skill> skillList) {

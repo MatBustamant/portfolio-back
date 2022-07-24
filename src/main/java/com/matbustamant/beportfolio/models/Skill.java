@@ -1,5 +1,6 @@
 package com.matbustamant.beportfolio.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,13 +28,14 @@ public class Skill implements Serializable{
          private Integer id;
 
          @NotNull(message="Tipo no puede ser null.")
-         @ManyToOne(fetch=FetchType.LAZY/*¿?¿? Averiguar bien EAGER*/, optional=false)
+         @ManyToOne(fetch=FetchType.EAGER, optional=false)
          @JoinColumn(name="stype_id")
          private SkillType linkedType;
 
          @NotNull(message="Persona no puede ser null.")
-         @ManyToOne(fetch=FetchType.LAZY/*¿?¿? Averiguar bien EAGER*/, optional=false)
+         @ManyToOne(fetch=FetchType.LAZY, optional=false)
          @JoinColumn (name="person_id" )
+	@JsonBackReference
          private Person linkedPerson;
 
          @NotNull(message="Nombre no puede ser null.")

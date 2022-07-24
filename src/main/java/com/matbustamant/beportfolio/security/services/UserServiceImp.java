@@ -76,6 +76,7 @@ public class UserServiceImp implements UserService{
 		if (oldRoles.contains("ADMIN")) {
 			user.setRoles(roles);
 			return roles.remove(roleInterface.getByRoleName(RoleName.ROLE_ADMIN).get());
+			//aquí falta algo???? creo que nunca borro roles. probar luego.
 		}
 
 		return false;

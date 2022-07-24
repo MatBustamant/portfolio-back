@@ -23,4 +23,14 @@ public class NewUser {
 	private String password;
 	
 	private Set<String> roles = new HashSet<>();
+
+	public NewUser(String name, String surname, String email, String password) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.password = password;
+	}
+
+	public NewUser() {
+	}
 }
