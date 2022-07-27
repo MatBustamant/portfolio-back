@@ -25,9 +25,9 @@ public class BeportfolioApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/api/auth/login").allowedOrigins("http://localhost:4200/").allowedMethods("POST").maxAge(3600);
-				registry.addMapping("/api/auth/refresh").allowedOrigins("http://localhost:4200/").allowedMethods("POST").maxAge(3600);
-				registry.addMapping("/api/portfolio/**").allowedOrigins("http://localhost:4200/").allowedMethods("*").maxAge(3600);
+				registry.addMapping("/api/auth/login").allowedOrigins("https://portfolio-angular-9c08e.web.app/").allowedMethods("POST").maxAge(3600);
+				registry.addMapping("/api/auth/refresh").allowedOrigins("https://portfolio-angular-9c08e.web.app/").allowedMethods("POST").maxAge(3600);
+				registry.addMapping("/api/portfolio/**").allowedOrigins("https://portfolio-angular-9c08e.web.app/").allowedMethods("*").maxAge(3600);
 			}
 		};
 	}
