@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface SkillService {
 	
+	public List<Skill> getSkills();
+	
          public List<Skill> getSkillsByType(SkillType stype);
 
          public Skill saveSkill(Skill s);

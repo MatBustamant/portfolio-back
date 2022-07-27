@@ -2,6 +2,7 @@ package com.matbustamant.beportfolio.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,34 +34,38 @@ public class Project implements Serializable{
          private Person linkedPerson;
 
          @NotNull(message="Título no puede ser null.")
-         @Length(min=8, max=25, message="Título debe tener entre 8 y 25 caracteres.")
+         @Length(min=5, max=50, message="Título debe tener entre 5 y 50 caracteres.")
          @Column(name="title")
          private String title;
-
-         @NotNull(message="Periodo no puede ser null.")
-         @Column(name="duration")
-         private String duration;
+	
+	@NotNull(message="Fecha de inicio no puede ser null.")
+	@Column(name="start_date")
+	private LocalDate startDate;
+	
+	@Column(name="end_date")
+	private LocalDate endDate;
 
          @NotNull(message="Descripción no puede ser null.")
-         //@Length(max=200, message="Descripción debe tener menos de 200 caracteres.") ----------
-         // SI NO SE USAN DOS DESCRIPCIONES DIFERENTES (UNA CORTA Y OTRA LARGA) ENTONCES ESTA DESCRIPCIÓN
-         // NO DEBERÍA TENER UN MÁXIMO DE CARACTERES. AL MENOS NO UNO TAN PEQUEÑO.
+         @Length(max=300, message="Descripción debe tener hasta 300 caracteres.")
          @Column(name="description")
          private String description;
+	
+	@NotNull(message="Evidencia no puede ser null.")
+         @Column(name="link")
+         private String link;
+	
+	@Column(name="img")
+	private String img;
 
-         //@Column(name="full_description") --------------------- ESTO HAY QUE VER CÓMO SE MANEJA LUEGO.
-         //private String fullDescription;
-
-         @Column(name="evidence")
-         private String evidence; //especificar más esto. Link a repositorio? Capturas? Link al deploy? Quizá dar opciones. Cómo?
-
-         public Project(Person linkedPerson, String title, String duration, String description, String evidence) {
-                  this.linkedPerson = linkedPerson;
-                  this.title = title;
-                  this.duration = duration;
-                  this.description = description;
-                  this.evidence = evidence;
-         }
+	public Project(Person linkedPerson, String title, LocalDate startDate, LocalDate endDate, String description, String link, String img) {
+		this.linkedPerson = linkedPerson;
+		this.title = title;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.description = description;
+		this.link = link;
+		this.img = img;
+	}
 
          public Project() {
          }

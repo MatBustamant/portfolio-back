@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class SkillServiceImp implements SkillService {
 	
 	private final SkillRepository skillRepo;
+	
+	@Override
+	public List<Skill> getSkills() {
+		return skillRepo.findAll();
+	}
 
 	@Override
 	public List<Skill> getSkillsByType(SkillType stype) {

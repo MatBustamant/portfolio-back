@@ -26,11 +26,16 @@ public class SkillController {
          public Skill createSkill (@Valid @RequestBody Skill skill) {
                   return skillInterface.saveSkill(skill);
          }
+		 
+	@GetMapping("/read")
+	public List<Skill> getSkills() {
+		return skillInterface.getSkills();
+	}
 
          @GetMapping ("/read/st{stype}")
          public List<Skill> getSkillsByType (@PathVariable SkillType stype) {
                   return skillInterface.getSkillsByType(stype);
-         } 
+         }
          
          @GetMapping ("/read/{id}")
          public Skill getSkillById (@PathVariable Integer id) {

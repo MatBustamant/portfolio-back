@@ -39,7 +39,7 @@ public class Skill implements Serializable{
          private Person linkedPerson;
 
          @NotNull(message="Nombre no puede ser null.")
-         @Length(min=1, max=15, message="Nombre debe tener entre 1 y 15 caracteres.")
+         @Length(min=1, max=30, message="Nombre debe tener entre 1 y 30 caracteres.")
          @Column(name="name")
          private String name;
 
