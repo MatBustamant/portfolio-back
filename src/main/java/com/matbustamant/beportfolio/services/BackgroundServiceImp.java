@@ -3,6 +3,7 @@ package com.matbustamant.beportfolio.services;
 import com.matbustamant.beportfolio.models.Background;
 import com.matbustamant.beportfolio.models.BackgroundType;
 import com.matbustamant.beportfolio.repositories.BackgroundRepository;
+import com.matbustamant.beportfolio.repositories.BackgroundTypeRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class BackgroundServiceImp implements BackgroundService{
 	
 	private final BackgroundRepository bgRepo;
+	private final BackgroundTypeRepository bgtypeRepo;
 
 	@Override
-	public List<Background> getBackgroundsByType(BackgroundType bgtype) {
+	public List<Background> getBackgroundsByType(Short id) {
+		BackgroundType bgtype = bgtypeRepo.findById(id).orElse(null);
+		if (bgtype == null) {
+			return null;
+		}
                   return bgRepo.findAllByLinkedType(bgtype);
 	}
 
@@ -26,12 +32,12 @@ public class BackgroundServiceImp implements BackgroundService{
 	}
 
 	@Override
-	public void deleteBackground(Integer id) {
-		boolean exists = bgRepo.existsById(id);
-		if (!exists) {
-			throw new IllegalStateException(String.format("El antecedente con el id %d no existe.", id));
+	public boolean deleteBackground(Integer id) {
+		if (!bgRepo.existsById(id)) {
+			return false;
 		}
 		bgRepo.deleteById(id);
+		return true;
 	}
 
 	@Override

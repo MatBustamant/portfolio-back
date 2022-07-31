@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SkillRepository extends JpaRepository<Skill, Integer>{
 	
-	public List<Skill> findAllByLinkedType(SkillType stype); //quizá ande mal, probar luego.
+	public List<Skill> findAllByLinkedType(SkillType stype);
 	
 }

@@ -9,4 +9,5 @@ public interface RoleService {
 	public Optional<Role> getByRoleName(RoleName roleName);
 	
 	public Role save(Role role);
+	
 }

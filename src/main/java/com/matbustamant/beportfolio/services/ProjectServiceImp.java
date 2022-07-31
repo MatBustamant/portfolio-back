@@ -25,12 +25,12 @@ public class ProjectServiceImp implements ProjectService {
 	}
 
 	@Override
-	public void deleteProject(Integer id) {
-		boolean exists = projectRepo.existsById(id);
-		if (!exists) {
-			throw new IllegalStateException(String.format("El proyecto con id %d no existe.", id));
+	public boolean deleteProject(Integer id) {
+		if (!projectRepo.existsById(id)) {
+			return false;
 		}
 		projectRepo.deleteById(id);
+		return true;
 	}
 
 	@Override

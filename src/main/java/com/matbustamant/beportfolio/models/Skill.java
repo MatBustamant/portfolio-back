@@ -48,15 +48,11 @@ public class Skill implements Serializable{
          @Column(name="lvl")
          private float lvl;
 
-         @Column(name="image")
-         private String image;
-
-         public Skill(SkillType linkedType, Person linkedPerson, String name, float lvl, String image) {
+         public Skill(SkillType linkedType, Person linkedPerson, String name, float lvl) {
                   this.linkedType = linkedType;
 		this.linkedPerson = linkedPerson;
                   this.name = name;
 		this.lvl = lvl;
-                  this.image = image;
          }
 
          public Skill() {

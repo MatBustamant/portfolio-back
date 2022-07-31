@@ -43,8 +43,9 @@ public class Background implements Serializable{
          @Column(name="institution")
          private String institution;
 	
-	@Column(name="img")
-	private String img;
+	@NotNull(message="Imagen no puede ser null.")
+	@Column(name="image")
+	private String image;
 
          @NotNull(message="Título no puede ser null.")
          @Length(min=5, max=50, message="Título debe tener entre 5 y 50 caracteres.")
@@ -63,11 +64,11 @@ public class Background implements Serializable{
          @Column(name="description")
          private String description;
 
-	public Background(BackgroundType linkedType, Person linkedPerson, String institution, String img, String title, LocalDate startDate, LocalDate endDate, String description) {
+	public Background(BackgroundType linkedType, Person linkedPerson, String institution, String image, String title, LocalDate startDate, LocalDate endDate, String description) {
 		this.linkedType = linkedType;
 		this.linkedPerson = linkedPerson;
 		this.institution = institution;
-		this.img = img;
+		this.image = image;
 		this.title = title;
 		this.startDate = startDate;
 		this.endDate = endDate;

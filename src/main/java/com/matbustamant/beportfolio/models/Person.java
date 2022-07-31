@@ -41,9 +41,13 @@ public class Person implements Serializable{
          @Column(name="occupation")
          private String occupation;
          
-	@Length(max=300, message="Descripción debe tener hasta 300 caracteres.")
+	@Length(max=500, message="Descripción debe tener hasta 500 caracteres.")
 	@Column(name="about")
          private String about;
+         
+	@NotNull(message="Imagen no puede ser null.")
+	@Column(name="image")
+	private String image;
          
          @OneToMany(fetch=FetchType.LAZY, mappedBy="linkedPerson")
 	@JsonManagedReference
@@ -57,11 +61,12 @@ public class Person implements Serializable{
 	@JsonManagedReference
          private List<Skill> skillList;
 
-         public Person(String name, String surname, String occupation, String about, List<Background> backgroundList, List<Project> projectList, List<Skill> skillList) {
+         public Person(String name, String surname, String occupation, String about, String image, List<Background> backgroundList, List<Project> projectList, List<Skill> skillList) {
                   this.name = name;
                   this.surname = surname;
                   this.occupation = occupation;
 		this.about = about;
+		this.image = image;
                   this.backgroundList = backgroundList;
                   this.projectList = projectList;
                   this.skillList = skillList;

@@ -9,7 +9,7 @@ public interface PersonService {
 
          public Person savePerson(Person person);
 
-         public void deletePerson(Integer id);
+         public boolean deletePerson(Integer id);
 
          public Person findPersonById(Integer id);
 

@@ -25,12 +25,12 @@ public class PersonServiceImp implements PersonService {
          }
 
          @Override
-         public void deletePerson(Integer id) {
-		boolean exists = personRepo.existsById(id);
-		if (!exists) {
-			throw new IllegalStateException(String.format("La persona con id %d no existe.", id));
+         public boolean deletePerson(Integer id) {
+		if (!personRepo.existsById(id)) {
+			return false;
 		}
                   personRepo.deleteById(id);
+		return true;
          }
 
          @Override

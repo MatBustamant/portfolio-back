@@ -9,7 +9,7 @@ public interface ProjectService {
 
          public Project saveProject(Project project);
 
-         public void deleteProject(Integer id);
+         public boolean deleteProject(Integer id);
 
          public Project findProjectById(Integer id);
 

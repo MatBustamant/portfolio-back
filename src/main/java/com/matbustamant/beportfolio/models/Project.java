@@ -54,17 +54,18 @@ public class Project implements Serializable{
          @Column(name="link")
          private String link;
 	
-	@Column(name="img")
-	private String img;
+	@NotNull(message="Imagen no puede ser null.")
+	@Column(name="image")
+	private String image;
 
-	public Project(Person linkedPerson, String title, LocalDate startDate, LocalDate endDate, String description, String link, String img) {
+	public Project(Person linkedPerson, String title, LocalDate startDate, LocalDate endDate, String description, String link, String image) {
 		this.linkedPerson = linkedPerson;
 		this.title = title;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.description = description;
 		this.link = link;
-		this.img = img;
+		this.image = image;
 	}
 
          public Project() {

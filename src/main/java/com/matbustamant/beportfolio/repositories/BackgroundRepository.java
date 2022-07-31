@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BackgroundRepository extends JpaRepository<Background, Integer> {
 	
-	public List<Background> findAllByLinkedType(BackgroundType bgtype); //quizá ande mal, probar luego
+	public List<Background> findAllByLinkedType(BackgroundType bgtype);
 
 }
